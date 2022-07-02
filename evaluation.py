@@ -20,7 +20,7 @@ def line_clears(board):
 	count = 0
 	for row in range(20):
 		full = sum([1 if x != 0 else 0 for x in board[row]])
-		if sum(full) == 10:
+		if full == 10:
 			count += 1
 	return count
 
@@ -57,6 +57,25 @@ def added_height(cur_height, new_height):
 	return max(0, (new_height - cur_height))
 
 
+def get_value(board, pieceID, coords):
+	piece_array = render_piece(coords)
+	new_board = np.add(board, piece_array)
+
+	cur_height = block_height(board)
+	new_height = block_height(new_board)
+
+	_holes = holes(new_board)
+	_lines_clears = line_clears(new_board)
+	_wells = wells(new_board)
+	_added_height = added_height(cur_height, new_height)
+
+	render_board(new_board)
+
+	value = (_lines_clears * 10) - (_holes[0] * 2) - (_wells) - (_added_height)
+
+	return value
+
+
 def surface_heights(board):
 	heights = [20] * 10
 	for col in range(10):
@@ -73,7 +92,7 @@ def render_board(board):
 
 
 # (x, y) = bottom left corner of the pieces hitbox
-def render_piece(x, y, pieceID):
+def get_tile_coords(x, y, pieceID):
 	piece_array = pieces.renders[pieceID]
 	
 	height = len(piece_array)
@@ -88,6 +107,13 @@ def render_piece(x, y, pieceID):
 				coords.append((x+row, y+col))
 
 	return coords
+
+
+def render_piece(tile_coords):
+	_board = np.zeros((20, 10))
+	for (x, y) in tile_coords:
+		_board[x][y] = 1
+	return _board
 
 
 def is_valid_placement(board, tile_coords, holes):
@@ -106,8 +132,7 @@ def is_valid_placement(board, tile_coords, holes):
 	return False
 
 
-
-def get_placeable_area(board, pieceID='0x4'):
+def get_placeable_area(board, pieceID):
 	heights = surface_heights(board)
 	low_bound = max(heights)
 	high_bound = max( 0, (min(heights) - 1) )
@@ -120,16 +145,9 @@ def get_placeable_area(board, pieceID='0x4'):
 
 	for row in range(high_bound, low_bound):
 		for col in range(0, max_col):
-			tile_coords = render_piece(row, col, pieceID)
+			tile_coords = get_tile_coords(row, col, pieceID)
 
 			if is_valid_placement(board, tile_coords, _holes):
-				valids.append([pieceID, row, col])
-
-				_board = np.zeros((20, 10))
-				for (x, y) in tile_coords:
-					_board[x][y] = 1
-				render_board(_board)
+				valids.append([pieceID, tile_coords, col, row])
 	
 	return valids
-				
-
