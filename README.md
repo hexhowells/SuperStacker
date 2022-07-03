@@ -13,9 +13,9 @@ Example of SuperStacker playing past the killscreen
 ## Usage
 This program runs on the BizHawk emulator and uses Python for backend computations. to use:
 
-- Run play.py
+- Run ```play.py```
 - Start NES Tetris in Bizhawk
-- Run ```play.lua``` from ```scripts``` in the BizHawk lua console
+- Run ```play.lua``` from ```scripts/``` in the BizHawk lua console
 - SuperStacker should select the game and begin playing, it will automatically unpause and restart the game 
 
 -----
