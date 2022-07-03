@@ -1,5 +1,5 @@
 import numpy as np
-from process_data import screenBuffer, renderPiece, pieceChannel
+from process_frame import create_screen_channel, create_piece_channel
 
 
 def getAction(action_vec):
@@ -17,9 +17,9 @@ def getFrame(conn):
 
 	# process the frame
 	frame_array = []
-	frame_array.append(screenBuffer(screen))
-	frame_array.append(renderPiece(int(x), int(y), piece_id))
-	frame_array.append(pieceChannel(str(hex(int(next_piece)))))
+	frame_array.append(create_screen_channel(screen))
+	frame_array.append(create_piece_channel(piece_id, int(x), int(y)))
+	frame_array.append(create_piece_channel(str(hex(int(next_piece)))))
 	frame_array = np.asarray(frame_array)
 
 	return frame_array, int(reward), (game_over == '1'), piece_id, dropped
@@ -27,3 +27,30 @@ def getFrame(conn):
 
 def action_vec(action):
 	return [int(x) for x in list(action)]
+
+
+def get_rotation_dir(pid, target_pid):
+	rots = {
+		'0x7': {'0x4':'right', '0x5':'right', '0x6':'left'},
+		'0x12': {'0x11':'right'},
+		'0xe': {'0xd':'left', '0xf':'right', '0x10':'right'},
+		'0x2': {'0x0':'right', '0x1':'left', '0x3':'right'}
+	}
+	if pid in rots.keys():
+		return rots[pid][target_pid]
+	else:
+		return 'right'
+
+
+def render_board(board):
+	for row in range(20):
+		print(''.join(['#' if x != 0 else '.' for x in board[row]]))
+
+
+def get_piece_column(frame):
+	col_num = 0
+	for col in frame[1].T:
+		if sum(col) != 0:
+			return col_num
+		else:
+			col_num += 1
