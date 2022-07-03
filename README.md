@@ -1,2 +1,2 @@
 # SuperStacker
-Heuristic based NES Tetris Algorithm
+Heuristic based NES Tetris AI
