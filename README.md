@@ -25,6 +25,8 @@ For each current falling piece, SuperStacker finds every possible place the piec
 
 All of this is done in the first frame of each new piece arriving on screen.
 
+Currently doesn't use information about the next piece and cannot tuck pieces.
+
 -----
 
 ## Statistics
@@ -53,3 +55,10 @@ SuperStacker uses many features to determine the value of each possible move
 
 #### Placement Height
 - Pieces are generally placed low down when possible
+
+
+## TODO
+- Utilise next piece information
+- Add more heuristic features
+- Add ability to tuck pieces
+- Prioritise getting higher scores through tetrises
