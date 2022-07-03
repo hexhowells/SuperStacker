@@ -56,6 +56,7 @@ SuperStacker uses many features to determine the value of each possible move
 #### Placement Height
 - Pieces are generally placed low down when possible
 
+-----
 
 ## TODO
 - Utilise next piece information
