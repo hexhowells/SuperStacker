@@ -31,19 +31,21 @@ def _get_tile_coords(x, y, pieceID):
 
 
 def _is_valid_placement(board, tile_coords, holes):
+	on_surface = False
+
+	# check if tile overlaps solid block or hole
 	for (x, y) in tile_coords:
-		# tile in solid block or hole
 		if (board[x][y] != 0) or ((x, y) in holes):
 			return False
+		if not on_surface:
+			_x = x + 1
+			if  (_x) == 20 or board[_x][y] != 0:
+				on_surface = True
 
-	for (x, y) in tile_coords:
-		_x = x + 1
-		if _x == 20:
-			return True
-		if board[_x][y] != 0:
-			return True
-
-	return False
+	if on_surface:
+		return True
+	else:
+		return False
 
 
 def _find_placeable_area(board, pieceID):
@@ -77,7 +79,7 @@ def get_all_piece_placements(frame, piece_id):
 	# get all values for each piece location
 	valids = []
 	for pid in rotations:
-		for valid in _find_placeable_area(frame[0], pid):
+		for valid in _find_placeable_area(frame, pid):
 			valids.append(valid)
 	
 	return valids
