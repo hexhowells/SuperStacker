@@ -1,4 +1,5 @@
 import numpy as np
+import utils
 
 
 # any empty cell with a solid cell above it
@@ -43,6 +44,7 @@ def _holes_and_wells(board):
 
 	hole_count = 0
 	well_count = 0
+	transitions = 0
 	for row in range(20):
 		prev_cell = 0
 		for col in range(1, 11):
@@ -54,8 +56,15 @@ def _holes_and_wells(board):
 				# holes
 				if row != 0 and (board[row-1][col] != 0):
 					hole_count += 1
+			# transitions
+			if cell != prev_cell:
+				transitions += 1
+			if (row != 0) and (cell != board[row-1][col]):
+				transitions
+
+			prev_cell = cell
 				
-	return hole_count, well_count
+	return hole_count, well_count, transitions
 
 
 # highest placed block on the screen
@@ -93,13 +102,15 @@ def get_value(board, pieceID, tile_coords, coords):
 	new_height = _block_height(new_board)
 
 	# individual value features
-	holes, wells = _holes_and_wells(new_board)
-	#holes = _holes(new_board)
 	lines_clears = _line_clears(new_board)
+
+	holes, wells, transitions = _holes_and_wells(new_board)
+	#holes = _holes(new_board)
 	#wells = _wells(new_board)
+
 	added_height = _added_height(cur_height, new_height)
 
 	# value calculation
-	value = ((lines_clears*2) ** 2) - (holes * 3) - (wells) - (added_height) + (coords[1])
+	value = ((lines_clears*2) ** 2) - (holes * 3) - (wells) - (transitions) - (added_height) + (coords[1])
 
 	return value
