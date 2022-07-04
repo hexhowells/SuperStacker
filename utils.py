@@ -23,7 +23,7 @@ def getFrame(conn):
 	frame_array.append(create_piece_channel(next_piece_id))
 	frame_array = np.asarray(frame_array)
 
-	return frame_array, int(reward), (game_over == '1'), piece_id, dropped
+	return frame_array, piece_id, next_piece_id, dropped
 
 
 def action_vec(action):

@@ -46,7 +46,7 @@ def _is_valid_placement(board, tile_coords, holes):
 	return False
 
 
-def get_placeable_area(board, pieceID):
+def _find_placeable_area(board, pieceID):
 	heights = _surface_heights(board)
 	low_bound = max(heights)
 	high_bound = max( 0, (min(heights) - 1) )
@@ -63,5 +63,21 @@ def get_placeable_area(board, pieceID):
 
 			if _is_valid_placement(board, tile_coords, holes):
 				valids.append([pieceID, tile_coords, col, row])
+	
+	return valids
+
+
+def get_all_piece_placements(frame, piece_id):
+	# get all rotations of the current piece
+	for rot in pieces.rotations:
+		if piece_id in rot:
+			rotations = rot
+			break
+
+	# get all values for each piece location
+	valids = []
+	for pid in rotations:
+		for valid in _find_placeable_area(frame[0], pid):
+			valids.append(valid)
 	
 	return valids

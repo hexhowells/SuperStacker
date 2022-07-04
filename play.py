@@ -4,26 +4,17 @@ import random
 
 import utils
 from evaluation import get_value
-from placements import get_placeable_area
+import evaluation as ev
+from placements import get_all_piece_placements
 import pieces
 
 
 
-def get_values(frame):
-	# get all rotations of the current piece
-	rotations = None
-	for rot in pieces.rotations:
-		if piece_id in rot:
-			rotations = rot
-			break
-
-	# get all values for each piece location
+def get_values(frame, piece_id):
 	values = []
-	for pid in rotations:
-		valids = get_placeable_area(frame[0], pid)
-		for (pid, t_coords, x, y) in valids:
-			val = get_value(frame[0], pid, t_coords, (x, y))
-			values.append([val, pid, t_coords, x])
+	for (pid, t_coords, x, y) in get_all_piece_placements(frame, piece_id):
+		val = get_value(frame[0], pid, t_coords, (x, y))
+		values.append([val, pid, t_coords, x])
 
 	return values
 
@@ -76,11 +67,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 
 		with conn:
 			# process frame
-			frame, _, _, piece_id, dropped = utils.getFrame(conn)
+			frame, piece_id, next_piece_id, dropped = utils.getFrame(conn)
 
 			# only analyse board when new piece arrives
 			if (dropped != prev_dropped):
-				values = get_values(frame)
+				values = get_values(frame, piece_id)
 				location = get_best_location(values)
 
 			#  rotate piece
