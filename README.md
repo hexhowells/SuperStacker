@@ -60,6 +60,7 @@ SuperStacker uses many features to determine the value of each possible move
 
 ## TODO
 - Utilise next piece information
-- Add more heuristic features
+- ~~Add more heuristic features~~
 - Add ability to tuck pieces
 - Prioritise getting higher scores through tetrises
+- Evaluate hole depth
