@@ -37,6 +37,27 @@ def _wells(board):
 	return count
 
 
+def _holes_and_wells(board):
+	new_col = np.ones((20,1))
+	board = np.hstack((new_col, board, new_col))
+
+	hole_count = 0
+	well_count = 0
+	for row in range(20):
+		prev_cell = 0
+		for col in range(1, 11):
+			cell = board[row][col]
+			if cell == 0:
+				# wells
+				if (board[row][col-1] != 0) and (board[row][col+1] != 0):
+					well_count += 1
+				# holes
+				if row != 0 and (board[row-1][col] != 0):
+					hole_count += 1
+				
+	return hole_count, well_count
+
+
 # highest placed block on the screen
 def _block_height(board):
 	rows = np.sum(board, axis=1)
@@ -72,12 +93,13 @@ def get_value(board, pieceID, tile_coords, coords):
 	new_height = _block_height(new_board)
 
 	# individual value features
-	holes = _holes(new_board)
+	holes, wells = _holes_and_wells(new_board)
+	#holes = _holes(new_board)
 	lines_clears = _line_clears(new_board)
-	wells = _wells(new_board)
+	#wells = _wells(new_board)
 	added_height = _added_height(cur_height, new_height)
 
 	# value calculation
-	value = ((lines_clears*2) ** 2) - (holes[0] * 3) - (wells) - (added_height) + (coords[1])
+	value = ((lines_clears*2) ** 2) - (holes * 3) - (wells) - (added_height) + (coords[1])
 
 	return value
