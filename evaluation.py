@@ -78,6 +78,6 @@ def get_value(board, pieceID, tile_coords, coords):
 	added_height = _added_height(cur_height, new_height)
 
 	# value calculation
-	value = (lines_clears ** 2) - (holes[0] * 3) - (wells) - (added_height) + (coords[1])
+	value = ((lines_clears*2) ** 2) - (holes[0] * 3) - (wells) - (added_height) + (coords[1])
 
 	return value
