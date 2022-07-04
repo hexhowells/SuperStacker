@@ -104,6 +104,9 @@ def get_value(board, pieceID, tile_coords, coords):
 	# individual value features
 	lines_clears = _line_clears(new_board)
 
+	if lines_clears != 0:
+		board = utils.clear_lines(board)
+
 	holes, wells, transitions = _holes_and_wells(new_board)
 	#holes = _holes(new_board)
 	#wells = _wells(new_board)
