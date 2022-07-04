@@ -171,12 +171,12 @@ while true do
 		console.clear()
 		console.log("score: ", getScore())
 		gui.clearGraphics()
-		joypad.set({["Start"] = true}, 1)
+		
+		joypad.set({Start=true}, 1)
 
 		-- reset score calculation variables
 		prev_score = -1
 		incr = 500000
-
 	end
 	
 	-- advance the game 5 frames
