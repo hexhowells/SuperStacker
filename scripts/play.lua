@@ -131,8 +131,6 @@ function displayScore()
 end
 
 
-gui.drawBox(430, 130, 480, 180, nil, "red")
-
 while true do
 	if gameActive() then
 		-- display accurate score
@@ -171,7 +169,7 @@ while true do
 		console.clear()
 		console.log("score: ", getScore())
 		gui.clearGraphics()
-		
+
 		joypad.set({Start=true}, 1)
 
 		-- reset score calculation variables
