@@ -55,3 +55,28 @@ def get_piece_column(frame):
 			return col_num
 		else:
 			col_num += 1
+
+
+# count number of rows with no empty cells
+def _line_clear_indexes(frame):
+	indexes = []
+	for row in range(20):
+		full = sum([1 if x != 0 else 0 for x in frame[row]])
+		if full == 10:
+			indexes.append(row)
+	return indexes
+
+
+def clear_lines(frame):
+	clear_idxs = _line_clear_indexes(frame)
+	rows_cleared = len(clear_idxs)
+	if rows_cleared > 0:
+		# delete rows with line clears
+		for idx in clear_idxs:
+			frame = np.delete(frame, idx, axis=0)
+
+		# add empty rows to the top of the frame
+		for _ in range(rows_cleared):
+			frame, np.insert(frame, 0, 0.0, axis=0)
+
+	return frame
