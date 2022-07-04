@@ -1,5 +1,6 @@
 local tcplib = require("lualibs.socket")
 
+
 function buttonPressed(controller)
 	for k,v in pairs(controller) do
 		if v then 
@@ -87,7 +88,7 @@ function getControllerMap(input_vec)
 end
 
 
-function get_dropped()
+function getDropped()
 	d = 0
 	d = d + tonumber( string.format("%x", memory.read_s16_le(0x03F0)) )
 	d = d + tonumber( string.format("%x", memory.read_s16_le(0x03F2)) )
@@ -101,9 +102,42 @@ function get_dropped()
 end
 
 
+prev_score = -1
+incr = 500000
+function getScore()
+	score = string.format("%x", memory.read_s24_le(0x0053))
+	score = string.gsub(score, "a", "10")
+	score = string.gsub(score, "b", "11")
+	score = string.gsub(score, "c", "12")
+	score = string.gsub(score, "d", "13")
+	score = string.gsub(score, "e", "14")
+	score = string.gsub(score, "f", "")
+
+	score_num = tonumber(score)
+	if (score_num < prev_score) then
+		score_num = score_num + incr
+		incr = incr + 500000
+	end
+	prev_score = score_num
+
+	return tostring(score_num)
+end
+
+
+function displayScore()
+	gui.drawBox(188, 75, 243, 90, nil, "black")
+	score = getScore()
+	gui.drawText(189, 76, score, nil, nil, 10, "Arial")
+end
+
+
+gui.drawBox(430, 130, 480, 180, nil, "red")
 
 while true do
 	if gameActive() then
+		-- display accurate score
+		displayScore()
+
 		-- connect to the socket
 		tcp = tcplib.tcp()
 		success = tcp:connect('localhost', 65432)
@@ -121,7 +155,7 @@ while true do
 		.. next_piece .. '\n' 
 		.. reward .. '\n' 
 		.. gameOver() .. '\n'
-		.. get_dropped()
+		.. getDropped()
 
 		tcp:send(frame_data)
 
@@ -135,8 +169,13 @@ while true do
 
 	else
 		console.clear()
-		--console.log("Game not active. AI paused.")
+		console.log("score: ", getScore())
+		gui.clearGraphics()
 		joypad.set({["Start"] = true}, 1)
+
+		-- reset score calculation variables
+		prev_score = -1
+		incr = 500000
 
 	end
 	
