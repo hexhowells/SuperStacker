@@ -10,10 +10,10 @@ import pieces
 
 
 
-def get_values(frame, piece_id):
+def get_values(frame, piece_id, next_piece_id):
 	values = []
 	for (pid, t_coords, x, y) in get_all_piece_placements(frame, piece_id):
-		val = get_value(frame[0], pid, t_coords, (x, y))
+		val = get_value(frame, pid, t_coords, (x, y))
 		values.append([val, pid, t_coords, x])
 
 	return values
@@ -71,7 +71,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 
 			# only analyse board when new piece arrives
 			if (dropped != prev_dropped):
-				values = get_values(frame, piece_id)
+				values = get_values(frame[0], piece_id, next_piece_id)
 				location = get_best_location(values)
 
 			#  rotate piece
