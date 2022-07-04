@@ -14,12 +14,13 @@ def getFrame(conn):
 	screen, cur_piece, next_piece, reward, game_over, dropped = data.decode().split('\n')
 	y, piece_id, x = cur_piece.split(',')
 	piece_id = str(hex(int(piece_id)))
+	next_piece_id = str(hex(int(next_piece)))
 
 	# process the frame
 	frame_array = []
 	frame_array.append(create_screen_channel(screen))
 	frame_array.append(create_piece_channel(piece_id, int(x), int(y)))
-	frame_array.append(create_piece_channel(str(hex(int(next_piece)))))
+	frame_array.append(create_piece_channel(next_piece_id))
 	frame_array = np.asarray(frame_array)
 
 	return frame_array, int(reward), (game_over == '1'), piece_id, dropped
