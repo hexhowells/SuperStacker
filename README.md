@@ -30,9 +30,9 @@ Currently doesn't use information about the next piece and cannot tuck pieces.
 -----
 
 ## Statistics
-- Current Highest Score: 1,335,060
-- Current Highest Level: 86
-- Most Lines Cleared: 865
+- Current Highest Score: 4,243,879
+- Current Highest Level: 130
+- Most Lines Cleared: 1305
 
 -----
 
