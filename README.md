@@ -4,7 +4,7 @@ SuperStacker is a heuristic based AI that can play NES Tetris at a superhuman le
 -----
 
 <p align="left">
-  <img src="https://github.com/hexhowells/SuperStacker/blob/main/gifs/superstacker_clip.gif" width=60%>
+  <img src="https://github.com/hexhowells/SuperStacker/blob/main/gifs/superstacker_clip.gif" width=65%>
 </p>
 Example of SuperStacker playing past the killscreen
 
