@@ -21,7 +21,7 @@ This program runs on the BizHawk emulator and uses Python for backend computatio
 -----
 
 ## How it works
-For each current falling piece, SuperStacker finds every possible place the piece can be put, each placement is then evaluated using a set of features. The placement with the best evaluation is chosen, actions are then performed to move and orient the piece to arrive at the desired place. 
+For each current falling piece, SuperStacker finds every possible place the piece can land, each placement is then evaluated using a set of features. The placement with the best evaluation is chosen, actions are then performed to move and orient the piece to arrive at the desired location. 
 
 All of this is done in the first frame of each new piece arriving on screen.
 
