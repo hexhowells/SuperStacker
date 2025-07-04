@@ -1,7 +1,7 @@
 # SuperStacker
 SuperStacker is a heuristic based AI that can play NES Tetris at a superhuman level.
 
-Recently used in the paper [Outsmarting algorithms: A comparative battle between Reinforcement Learning and heuristics in Atari Tetris](https://www.sciencedirect.com/science/article/pii/S0957417425008735)
+Recently used in the paper [Outsmarting algorithms: A comparative battle between Reinforcement Learning and heuristics in Atari Tetris](https://www.sciencedirect.com/science/article/pii/S0957417425008735) (not affiliated)
 
 -----
 
